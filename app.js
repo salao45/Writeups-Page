@@ -630,16 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { name: "Binary Exploitation: Buffer Overflows", url: "https://blog.usejournal.com/binary-exploitation-buffer-overflows-a9dc63e8b546" },
             { name: "WHAT IS A BUFFER OVERFLOW? LEARN ABOUT BUFFER OVERRUN VULNERABILITIES, EXPLOITS & ATTACKS", url: "https://www.veracode.com/security/buffer-overflow" },
         ],
-        "Android Pentesting": [
-            { name: "Android Pentesting Lab (Step by Step guide for beginners!)", url: "https://medium.com/bugbountywriteup/android-pentesting-lab-4a6fe1a1d2e0" },
-        ],
-        "Contributing": [
-            { name: "0xAsm0d3us", url: "https://twitter.com/0xAsm0d3us" },
-        ],
-        "Maintainers": [
-            { name: "devanshbatham", url: "https://github.com/devanshbatham" },
-            { name: "e13v3n-0xb", url: "https://github.com/e13v3n-0xb" },
-        ],
+     
             };
     
     let checkedItems = JSON.parse(localStorage.getItem("checkedItems")) || {}; 
