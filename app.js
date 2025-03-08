@@ -630,10 +630,22 @@ document.addEventListener("DOMContentLoaded", function () {
             { name: "Binary Exploitation: Buffer Overflows", url: "https://blog.usejournal.com/binary-exploitation-buffer-overflows-a9dc63e8b546" },
             { name: "WHAT IS A BUFFER OVERFLOW? LEARN ABOUT BUFFER OVERRUN VULNERABILITIES, EXPLOITS & ATTACKS", url: "https://www.veracode.com/security/buffer-overflow" },
         ],
-     
+        "Android Pentesting": [
+            { name: "Android Pentesting Lab (Step by Step guide for beginners!)", url: "https://medium.com/bugbountywriteup/android-pentesting-lab-4a6fe1a1d2e0" },
+        ],
+        "Contributing": [
+            { name: "0xAsm0d3us", url: "https://twitter.com/0xAsm0d3us" },
+        ],
+        "Maintainers": [
+            { name: "devanshbatham", url: "https://github.com/devanshbatham" },
+            { name: "e13v3n-0xb", url: "https://github.com/e13v3n-0xb" },
+        ],
             };
     
     let checkedItems = JSON.parse(localStorage.getItem("checkedItems")) || {}; 
+    let lastTopic = localStorage.getItem("lastTopic") || "All Links";
+    let lastPage = parseInt(localStorage.getItem("lastPage")) || 1;
+    
     const topicDropdown = document.getElementById("topicDropdown");
     const topicContentsContainer = document.getElementById("topicContents");
     const overallProgressBar = document.getElementById("overallProgressBar");
@@ -641,9 +653,9 @@ document.addEventListener("DOMContentLoaded", function () {
     paginationContainer.id = "pagination";
     topicContentsContainer.appendChild(paginationContainer);
 
-    let currentPage = 1;
+    let currentPage = lastPage;
     const linksPerPage = 10;
-    let currentTopic = null;
+    let currentTopic = lastTopic;
     let allLinksArray = [];
     let topicProgressBars = {}; 
 
@@ -660,17 +672,7 @@ document.addEventListener("DOMContentLoaded", function () {
         topicDropdown.appendChild(option);
     });
 
-    // Event listener for dropdown selection
-    topicDropdown.addEventListener("change", function () {
-        currentTopic = topicDropdown.value;
-        currentPage = 1; 
-        if (currentTopic === "All Links") {
-            prepareAllLinksArray();
-            showPage(currentPage);
-        } else if (currentTopic) {
-            showTopicContent(currentTopic);
-        }
-    });
+    topicDropdown.value = lastTopic;
 
     function prepareAllLinksArray() {
         allLinksArray = [];
@@ -681,11 +683,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function showTopicContent(topic) {
-        currentTopic = topic;
+    topicDropdown.addEventListener("change", function () {
+        currentTopic = topicDropdown.value;
         currentPage = 1; 
+        localStorage.setItem("lastTopic", currentTopic);
+        localStorage.setItem("lastPage", currentPage);
+
+        if (currentTopic === "All Links") {
+            prepareAllLinksArray();
+        }
         showPage(currentPage);
-    }
+    });
 
     function showPage(pageNumber) {
         topicContentsContainer.innerHTML = `<h3>${currentTopic === "All Links" ? "All Links" : currentTopic}</h3>`;
@@ -717,6 +725,7 @@ document.addEventListener("DOMContentLoaded", function () {
             topicContentsContainer.appendChild(linkItem);
         });
 
+        localStorage.setItem("lastPage", pageNumber);
         createPaginationControls(linksArray.length);
         updateProgress();
         updateTopicProgress(currentTopic);
@@ -800,5 +809,9 @@ document.addEventListener("DOMContentLoaded", function () {
         topicProgressBars[topic].innerText = `${Math.round(topicProgress)}%`;
     }
 
-    updateProgress();
+    if (currentTopic === "All Links") {
+        prepareAllLinksArray();
+    }
+    
+    showPage(currentPage);
 });
